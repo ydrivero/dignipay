@@ -1,0 +1,10 @@
+{
+  "name": "dignipay",
+  "version": "1.0.0",
+  "description": "DigniPay - local-first civic donation platform",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
