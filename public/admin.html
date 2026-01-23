@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigniPay Shelter Portal</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="container nav-inner">
+        <div class="logo">
+          <div class="logo-mark">DP</div>
+          DigniPay Shelter Portal
+        </div>
+        <div class="flex">
+          <a class="button secondary" href="/">Home</a>
+          <a class="button" href="/donate/demo">Donor Demo</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="container">
+        <h2>System Overview</h2>
+        <div class="admin-grid" id="stats"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container hero-grid">
+        <div>
+          <h2>Onboard a participant</h2>
+          <p class="notice">
+            Capture minimal details, print a QR badge, and hand it directly to the participant.
+          </p>
+          <form class="form" id="participant-form">
+            <input class="input" name="name" placeholder="First name or alias" required />
+            <input class="input" name="shelter" placeholder="Shelter affiliation" required />
+            <input class="input" name="message" placeholder="Human message" />
+            <input
+              class="input"
+              name="priorities"
+              placeholder="Needs priorities (comma separated)"
+            />
+            <button class="button" type="submit">Create Badge</button>
+          </form>
+          <div id="form-success" class="success hidden"></div>
+        </div>
+        <div class="hero-card" id="badge-preview">
+          <h3>Badge preview</h3>
+          <p class="notice">Select a participant to generate a QR badge.</p>
+          <div id="qr" class="qr"></div>
+          <div class="badge-chip" id="badge-link">Awaiting badge...</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Participants & Wallets</h2>
+        <table class="table" id="participants-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Shelter</th>
+              <th>Priorities</th>
+              <th>Wallet Balance</th>
+              <th>Badge</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Recent Donations</h2>
+        <table class="table" id="donations-table">
+          <thead>
+            <tr>
+              <th>Participant</th>
+              <th>Badge</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Tip</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>Partner dashboard for shelters, outreach teams, and city coordinators.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="/admin.js"></script>
+  </body>
+</html>
