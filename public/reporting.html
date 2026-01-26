@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigniPay City Report</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="container nav-inner">
+        <div class="logo">
+          <div class="logo-mark">DP</div>
+          DigniPay City Report
+        </div>
+        <div class="flex">
+          <a class="button secondary" href="/admin">Back to Admin</a>
+          <a class="button" href="/">Home</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="container">
+        <h2>City Council Reporting</h2>
+        <p class="notice">
+          All data is anonymized and aggregated for public accountability.
+        </p>
+        <div class="flex" style="margin-top: 16px">
+          <button class="button" id="refresh-report">Refresh</button>
+          <a class="button secondary" id="download-csv" href="/admin/reporting.csv"
+            >Download CSV</a
+          >
+          <a class="button secondary" id="download-pdf" href="/admin/reporting.pdf"
+            >Download PDF</a
+          >
+        </div>
+        <div class="admin-grid" id="report-stats"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Category totals</h2>
+        <table class="table" id="category-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Total (CAD)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Borough comparison</h2>
+        <table class="table" id="borough-table">
+          <thead>
+            <tr>
+              <th>Borough</th>
+              <th>Participants</th>
+              <th>Active rate</th>
+              <th>Avg donation</th>
+              <th>Top category</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container hero-grid">
+        <div>
+          <h2>Community pool</h2>
+          <p class="notice">
+            A small allocation supports people without a badge. Record redemptions below.
+          </p>
+          <form class="form" id="redemption-form">
+            <input class="input" name="amount" placeholder="Redemption amount (CAD)" />
+            <input class="input" name="note" placeholder="Note (optional)" />
+            <button class="button" type="submit">Record redemption</button>
+          </form>
+          <div id="redemption-status" class="success hidden"></div>
+        </div>
+        <div class="hero-card">
+          <h3>Community pool balance</h3>
+          <p class="notice" id="community-balance">--</p>
+          <p class="notice" id="community-redemptions">--</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>DigniPay — Anonymized city impact reporting for Montreal.</p>
+      </div>
+    </footer>
+
+    <script src="/reporting.js"></script>
+  </body>
+</html>
