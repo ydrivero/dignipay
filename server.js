@@ -9,6 +9,9 @@ import {
   getParticipantByBadge,
   addParticipant,
   addDonation,
+  getDonations,
+  getStats
+} from "./data.js";
   addReceipt,
   getReceiptById,
   addCommunityRedemption,
@@ -460,6 +463,7 @@ const server = http.createServer(async (req, res) => {
   if (pathname === "/api/participants" && req.method === "POST") {
     try {
       const body = await parseBody(req);
+      const { name, shelter, message, priorities } = body;
       const { name, shelter, borough, message, priorities } = body;
 
       if (!name || !shelter) {
@@ -467,6 +471,7 @@ const server = http.createServer(async (req, res) => {
         return;
       }
 
+      const participant = addParticipant({ name, shelter, message, priorities });
       const participant = addParticipant({ name, shelter, borough, message, priorities });
       sendJson(res, 201, {
         ...participant,
@@ -493,6 +498,11 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (pathname === "/api/donations" && req.method === "POST") {
+    try {
+      const body = await parseBody(req);
+      const { badgeId, amount, tip, category } = body;
+
   if (pathname === "/pay/create-session" && req.method === "POST") {
     try {
       const body = await parseBody(req);
@@ -501,6 +511,10 @@ const server = http.createServer(async (req, res) => {
         sendJson(res, 400, { error: "Badge, amount, and category are required." });
         return;
       }
+
+      const amountCents = Math.round(Number(amount) * 100);
+      const tipCents = Math.round(Number(tip || 0) * 100);
+
       const amountCents = Math.round(Number(amount) * 100);
       const tipCents = Math.round(Number(tip || 0) * 100);
       if (!Number.isFinite(amountCents) || amountCents <= 0) {
@@ -534,6 +548,7 @@ const server = http.createServer(async (req, res) => {
         return;
       }
 
+      const donation = addDonation({ badgeId, amountCents, tipCents, category });
       if (mode === "stripe" && sessionId) {
         const session = await retrieveStripeSession(sessionId);
         if (!session || session.payment_status !== "paid") {
@@ -556,6 +571,8 @@ const server = http.createServer(async (req, res) => {
         return;
       }
 
+      sendJson(res, 200, {
+        ok: true,
       const receipt = addReceipt({
         donationId: donation.id,
         donationAmountCents: amountCents,
@@ -583,11 +600,17 @@ const server = http.createServer(async (req, res) => {
       });
       return;
     } catch (error) {
+      sendJson(res, 400, { error: "Invalid JSON." });
       sendJson(res, 400, { error: "Invalid request." });
       return;
     }
   }
 
+  if (pathname === "/api/donations" && req.method === "GET") {
+    const donations = getDonations().map((donation) => {
+      const participant = getParticipants().find(
+        (item) => item.id === donation.participantId
+      );
   if (pathname === "/api/donations" && req.method === "POST") {
     sendJson(res, 410, { error: "Use /pay/create-session and /pay/finalize instead." });
     return;
