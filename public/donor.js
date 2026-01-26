@@ -141,6 +141,18 @@ const handlePay = async () => {
   const donorEmail = donorEmailInput.value.trim();
 
   const response = await fetch("/pay/create-session", {
+customAmount.addEventListener("input", () => {
+  if (customAmount.value) {
+    selectedAmount = Number(customAmount.value);
+    updateActive(amountOptions, -1, "amount");
+  }
+});
+
+payButton.addEventListener("click", async () => {
+  const amount = customAmount.value ? Number(customAmount.value) : selectedAmount;
+  const tip = tipToggle.checked ? 0.5 : 0;
+
+  const response = await fetch("/api/donations", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -193,3 +205,19 @@ payButton.addEventListener("click", handlePay);
 createSelectButtons();
 loadParticipant();
 handleStripeSuccess();
+      category: selectedCategory
+    })
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    successMessage.classList.remove("hidden");
+    successMessage.textContent = `Thank you! ${data.total} confirmed. Receipt sent.`;
+  } else {
+    successMessage.classList.remove("hidden");
+    successMessage.textContent = "Payment failed. Please try again.";
+  }
+});
+
+createSelectButtons();
+loadParticipant();

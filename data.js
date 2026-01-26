@@ -57,6 +57,7 @@ const seedData = () => {
   ];
 
   return ensureDefaults({ participants, donations: [] });
+  return { participants, donations: [] };
 };
 
 const readData = () => {
@@ -68,6 +69,7 @@ const readData = () => {
 
   const raw = fs.readFileSync(dataPath, "utf-8");
   return ensureDefaults(JSON.parse(raw));
+  return JSON.parse(raw);
 };
 
 const writeData = (data) => {
@@ -85,6 +87,7 @@ const getParticipantByBadge = (badgeId) => {
 };
 
 const addParticipant = ({ name, shelter, borough, message, priorities }) => {
+const addParticipant = ({ name, shelter, message, priorities }) => {
   const data = readData();
   const now = new Date().toISOString();
   const participant = {
@@ -111,6 +114,7 @@ const addDonation = ({
   communityAllocationCents,
   donorEmail
 }) => {
+const addDonation = ({ badgeId, amountCents, tipCents, category }) => {
   const data = readData();
   const participant = data.participants.find((item) => item.badgeId === badgeId);
   if (!participant) {
@@ -130,6 +134,10 @@ const addDonation = ({
 
   participant.balanceCents += amountCents - communityAllocationCents;
   data.communityPoolBalanceCents += communityAllocationCents;
+    createdAt: new Date().toISOString()
+  };
+
+  participant.balanceCents += amountCents;
   data.donations.push(donation);
   writeData(data);
 
