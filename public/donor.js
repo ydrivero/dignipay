@@ -6,6 +6,7 @@ const customAmount = document.getElementById("custom-amount");
 const tipToggle = document.getElementById("tip-toggle");
 const payButton = document.getElementById("pay-button");
 const successMessage = document.getElementById("success-message");
+const donorEmailInput = document.getElementById("donor-email");
 
 const amounts = [2, 5, 10];
 const categories = [
@@ -107,6 +108,39 @@ const loadParticipant = async () => {
   message.textContent = participant.message || "Your support helps cover essential needs.";
 };
 
+const finalizePayment = async ({ sessionId, mode, amount, tip, donorEmail }) => {
+  const response = await fetch("/pay/finalize", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      badgeId,
+      amount,
+      tip,
+      category: selectedCategory,
+      donorEmail,
+      sessionId,
+      mode
+    })
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    successMessage.classList.remove("hidden");
+    successMessage.innerHTML = `Thank you! ${data.total} confirmed.<br />Receipt #${
+      data.receiptNumber
+    } · <a href="${data.receiptUrl}">View receipt</a> · <a href="${data.receiptPdfUrl}">PDF</a>`;
+  } else {
+    successMessage.classList.remove("hidden");
+    successMessage.textContent = "Payment failed. Please try again.";
+  }
+};
+
+const handlePay = async () => {
+  const amount = customAmount.value ? Number(customAmount.value) : selectedAmount;
+  const tip = tipToggle.checked ? 0.5 : 0;
+  const donorEmail = donorEmailInput.value.trim();
+
+  const response = await fetch("/pay/create-session", {
 customAmount.addEventListener("input", () => {
   if (customAmount.value) {
     selectedAmount = Number(customAmount.value);
@@ -125,6 +159,52 @@ payButton.addEventListener("click", async () => {
       badgeId,
       amount,
       tip,
+      category: selectedCategory,
+      donorEmail
+    })
+  });
+
+  if (!response.ok) {
+    successMessage.classList.remove("hidden");
+    successMessage.textContent = "Unable to start payment.";
+    return;
+  }
+
+  const session = await response.json();
+  if (session.mode === "stripe" && session.url) {
+    window.location.href = session.url;
+    return;
+  }
+
+  await finalizePayment({ mode: "demo", amount, tip, donorEmail });
+};
+
+const handleStripeSuccess = async () => {
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get("session_id");
+  if (!sessionId) {
+    return;
+  }
+
+  const amount = customAmount.value ? Number(customAmount.value) : selectedAmount;
+  const tip = tipToggle.checked ? 0.5 : 0;
+  const donorEmail = donorEmailInput.value.trim();
+
+  await finalizePayment({ sessionId, mode: "stripe", amount, tip, donorEmail });
+};
+
+customAmount.addEventListener("input", () => {
+  if (customAmount.value) {
+    selectedAmount = Number(customAmount.value);
+    updateActive(amountOptions, -1, "amount");
+  }
+});
+
+payButton.addEventListener("click", handlePay);
+
+createSelectButtons();
+loadParticipant();
+handleStripeSuccess();
       category: selectedCategory
     })
   });

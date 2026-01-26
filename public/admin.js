@@ -49,6 +49,7 @@ const renderParticipants = async () => {
     row.innerHTML = `
       <td>${participant.name}</td>
       <td>${participant.shelter}</td>
+      <td>${participant.borough || "Unspecified"}</td>
       <td>${priorities}</td>
       <td>${participant.balance}</td>
       <td>
@@ -115,6 +116,7 @@ form.addEventListener("submit", async (event) => {
   const payload = {
     name: formData.get("name"),
     shelter: formData.get("shelter"),
+    borough: formData.get("borough"),
     message: formData.get("message"),
     priorities: priorities.length ? priorities : categories
   };
