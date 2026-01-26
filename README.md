@@ -18,6 +18,8 @@ docker compose up --build
 
 Then open http://localhost:3000.
 
+Optional: copy `.env.example` to `.env` to enable Stripe and SMTP settings. The app runs without it.
+
 ## Configure Stripe payments (optional)
 
 1. Copy `.env.example` to `.env`.
