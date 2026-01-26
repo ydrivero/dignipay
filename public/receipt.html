@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigniPay Receipt</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="donor-shell">
+      <div class="donor-card">
+        <div class="badge">Receipt</div>
+        <h2 id="receipt-title">Thanks for your support</h2>
+        <p class="notice" id="receipt-subtitle"></p>
+        <div class="card" style="margin-top: 16px">
+          <p><strong>Receipt #:</strong> <span id="receipt-number"></span></p>
+          <p><strong>Donation:</strong> <span id="receipt-donation"></span></p>
+          <p><strong>Tip:</strong> <span id="receipt-tip"></span></p>
+          <p><strong>Category:</strong> <span id="receipt-category"></span></p>
+          <p><strong>Date:</strong> <span id="receipt-date"></span></p>
+        </div>
+        <p class="notice" id="receipt-sponsor"></p>
+        <div class="flex" style="margin-top: 16px">
+          <a class="button" id="receipt-pdf" href="#">Download PDF</a>
+          <a class="button secondary" href="/">Return home</a>
+        </div>
+      </div>
+    </main>
+
+    <script src="/receipt.js"></script>
+  </body>
+</html>

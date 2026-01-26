@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigniPay Donation</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="donor-shell">
+      <div class="donor-card">
+        <div class="badge">Street Giving • Secure Payment</div>
+        <h2 id="donor-title">Support today</h2>
+        <p class="notice" id="donor-message"></p>
+
+        <div class="amount-grid" id="amount-options"></div>
+
+        <label for="custom-amount" class="notice">Custom amount</label>
+        <input
+          class="input"
+          id="custom-amount"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="$ Amount"
+        />
+
+        <div class="category-grid" id="category-options"></div>
+
+        <label for="donor-email" class="notice">Email for receipt (optional)</label>
+        <input
+          class="input"
+          id="donor-email"
+          type="email"
+          placeholder="you@example.com"
+        />
+
+        <div class="tip-toggle">
+          <span>➕ Add $0.50 to keep the platform free</span>
+          <input type="checkbox" id="tip-toggle" />
+        </div>
+
+        <button class="button" id="pay-button">Pay now</button>
+
+        <div class="payment-row">
+          <div class="payment-button">Apple Pay</div>
+          <div class="payment-button">Google Pay</div>
+          <div class="payment-button">Card</div>
+        </div>
+
+        <div class="success hidden" id="success-message"></div>
+      </div>
+    </main>
+
+    <script src="/donor.js"></script>
+  </body>
+</html>
